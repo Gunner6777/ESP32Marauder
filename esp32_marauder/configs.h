@@ -30,6 +30,7 @@
   //#define MARAUDER_C5
   //#define MARAUDER_CARDPUTER
   //#define MARAUDER_V8
+  #define TINYS3_ESP32_S3
   //// END BOARD TARGETS
 
   #define MARAUDER_VERSION "v1.8.11"
@@ -439,6 +440,19 @@
     #define HAS_DUAL_BAND
     #define HAS_PSRAM
     //#define HAS_TEMP_SENSOR
+  #endif
+
+  #ifdef TINYS3_ESP32_S3
+    //#define FLIPPER_ZERO_HAT
+    //#define HAS_BATTERY
+    #define HAS_BT
+    //#define HAS_BUTTONS
+    //#define HAS_NEOPIXEL_LED
+    //#define HAS_PWR_MGMT
+    //#define HAS_SCREEN
+    //#define HAS_SD
+    //#define HAS_TEMP_SENSOR
+    //#define HAS_GPS
   #endif
   //// END BOARD FEATURES
 
@@ -2250,6 +2264,8 @@
   #elif defined(MARAUDER_C5)
     #define MEM_LOWER_LIM 10000
   #elif defined(MARAUDER_V8)
+    #define MEM_LOWER_LIM 10000
+  #elif defined(TINYS3_ESP32_S3)
     #define MEM_LOWER_LIM 10000
   #endif
   //// END MEMORY LOWER LIMIT STUFF
