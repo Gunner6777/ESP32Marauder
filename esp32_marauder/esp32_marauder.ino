@@ -7,6 +7,10 @@ https://www.online-utility.org/image/convert/to/XBM
 
 #include "configs.h"
 
+//#ifdef TINYS3_ESP32_S3
+//  #define Serial Serial0  // Redirect all Serial calls to Serial0
+//#endif
+
 #ifndef HAS_SCREEN
   #define MenuFunctions_h
   #define Display_h
@@ -198,10 +202,18 @@ void setup()
     delay(10);
   #endif
 
-  Serial.begin(115200);
+  #ifdef TINYS3_ESP32_S3
+    Serial.begin(115200, SERIAL_8N1, 44, 43);  // Hardware UART (RX=44, TX=43 for TinyS3)
+  #else
+    Serial.begin(115200);
+  #endif
 
   while(!Serial)
     delay(10);
+
+  #ifdef TINYS3_ESP32_S3
+    Serial.println("Hello from TinyS3");
+  #endif
 
   Serial.println("ESP-IDF version is: " + String(esp_get_idf_version()));
 
