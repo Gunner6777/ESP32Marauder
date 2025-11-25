@@ -443,6 +443,8 @@
   #endif
 
   #ifdef TINYS3_ESP32_S3
+    //#define HAS_TOUCH
+    //#define HAS_FLIPPER_LED
     //#define FLIPPER_ZERO_HAT
     //#define HAS_BATTERY
     #define HAS_BT
@@ -450,9 +452,14 @@
     //#define HAS_NEOPIXEL_LED
     //#define HAS_PWR_MGMT
     //#define HAS_SCREEN
-    //#define HAS_SD
-    //#define HAS_TEMP_SENSOR
+    //#define HAS_FULL_SCREEN
     //#define HAS_GPS
+    //#define HAS_C5_SD
+    //#define HAS_SD
+    //#define USE_SD
+    //#define HAS_DUAL_BAND
+    #define HAS_PSRAM
+    //#define HAS_TEMP_SENSOR
   #endif
   //// END BOARD FEATURES
 
