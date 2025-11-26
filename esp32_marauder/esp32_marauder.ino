@@ -202,11 +202,7 @@ void setup()
     delay(10);
   #endif
 
-  #ifdef TINYS3_ESP32_S3
-    Serial.begin(115200, SERIAL_8N1, 44, 43);  // Hardware UART (RX=44, TX=43 for TinyS3)
-  #else
-    Serial.begin(115200);
-  #endif
+  Serial.begin(115200);
 
   while(!Serial)
     delay(10);
