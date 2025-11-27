@@ -57,6 +57,8 @@
   #include "xiaoLED.h"
 #elif defined(MARAUDER_M5STICKC)
   #include "stickcLED.h"
+#elif defined(HAS_TINY_LED)
+  #include "tinyLED.h"
 #else
   #include "LedInterface.h"
 #endif
@@ -207,6 +209,8 @@ extern Settings settings_obj;
   extern xiaoLED xiao_led;
 #elif defined(MARAUDER_M5STICKC)
   extern stickcLED stickc_led;
+#elif defined(HAS_TINY_LED)
+  extern tinyLED tiny_led;
 #else
   extern LedInterface led_obj;
 #endif

@@ -46,6 +46,8 @@ https://www.online-utility.org/image/convert/to/XBM
   #include "stickcLED.h"
 #elif defined(HAS_NEOPIXEL_LED)
   #include "LedInterface.h"
+#elif defined(HAS_TINY_LED)
+  #include "tinyLED.h"
 #endif
 
 #include "settings.h"
@@ -115,6 +117,8 @@ CommandLine cli_obj;
   xiaoLED xiao_led;
 #elif defined(MARAUDER_M5STICKC) || defined(MARAUDER_M5STICKCP2)
   stickcLED stickc_led;
+#elif defined(HAS_TINY_LED)
+  tinyLED tiny_led;
 #else
   LedInterface led_obj;
 #endif
@@ -208,6 +212,19 @@ void setup()
     delay(10);
 
   #ifdef TINYS3_ESP32_S3
+  //  #ifdef HAS_TINY_LED
+  //  // Initialize all board peripherals, call this first
+  //  ums3.begin();
+  //  // Brightness is 0-255. We set it to 1/51 brightness here
+  //  ums3.setPixelBrightness(255 / 51);
+  //  // Enable the power to the RGB LED.
+  //  // Off by default so it doesn't use current when the LED is not required.
+  //  ums3.setPixelPower(true);
+  //  #endif
+  //#endif
+  
+    // Enable Serial Pins
+    //Serial0.begin(115200, SERIAL_8N1, 44, 43);  // Hardware UART (RX=44, TX=43 for TinyS3)
     Serial.println("Hello from TinyS3");
   #endif
 
@@ -290,6 +307,8 @@ void setup()
     xiao_led.RunSetup();
   #elif defined(MARAUDER_M5STICKC)
     stickc_led.RunSetup();
+  #elif defined(HAS_TINY_LED)
+    tiny_led.RunSetup();
   #else
     led_obj.RunSetup();
   #endif
@@ -375,6 +394,8 @@ void loop()
     xiao_led.main();
   #elif defined(MARAUDER_M5STICKC)
     stickc_led.main();
+  #elif defined(HAS_TINY_LED)
+    tiny_led.main(currentTime, wifi_scan_obj.currentScanMode);
   #else
     led_obj.main(currentTime);
   #endif
