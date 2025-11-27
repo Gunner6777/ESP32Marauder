@@ -162,6 +162,11 @@ void backlightOff() {
 
 void setup()
 {
+  #ifdef TINYS3_ESP32_S3
+    delay(1000);
+    //esp_task_wdt_deinit();  // Disable watchdog 'temporarily' ;) yolo
+  #endif
+
   #ifndef HAS_DUAL_BAND
     esp_spiram_init();
   #endif
@@ -207,9 +212,12 @@ void setup()
   #endif
 
   Serial.begin(115200);
-
-  while(!Serial)
-    delay(10);
+  #ifdef TINYS3_ESP32_S3
+    delay(500);
+  #else
+    while(!Serial)
+      delay(10);
+  #endif
 
   #ifdef TINYS3_ESP32_S3
   //  #ifdef HAS_TINY_LED
