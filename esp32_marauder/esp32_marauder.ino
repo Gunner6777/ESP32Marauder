@@ -10,6 +10,12 @@ https://www.online-utility.org/image/convert/to/XBM
 //#ifdef TINYS3_ESP32_S3
 //  #define Serial Serial0  // Redirect all Serial calls to Serial0
 //#endif
+//#ifdef TINYS3_ESP32_S3
+//  #include "esp_task_wdt.h"
+//  // Increase default stack sizes
+//  #define CONFIG_ARDUINO_LOOP_STACK_SIZE 16384  // Increase from default 8192
+//  #define CONFIG_ESP_MAIN_TASK_STACK_SIZE 8192   // Increase main task
+//#endif
 
 #ifndef HAS_SCREEN
   #define MenuFunctions_h
@@ -219,7 +225,7 @@ void setup()
       delay(10);
   #endif
 
-  #ifdef TINYS3_ESP32_S3
+  //#ifdef TINYS3_ESP32_S3
   //  #ifdef HAS_TINY_LED
   //  // Initialize all board peripherals, call this first
   //  ums3.begin();
@@ -231,6 +237,7 @@ void setup()
   //  #endif
   //#endif
   
+  #ifdef TINYS3_ESP32_S3
     // Enable Serial Pins
     //Serial0.begin(115200, SERIAL_8N1, 44, 43);  // Hardware UART (RX=44, TX=43 for TinyS3)
     Serial.println("Hello from TinyS3");
@@ -241,6 +248,10 @@ void setup()
   #ifdef HAS_PSRAM
     if (psramInit()) {
       Serial.println("PSRAM is correctly initialized");
+      #ifdef TINYS3_ESP32_S3
+        Serial.print("Max Heap: ");
+        Serial.println(ESP.getMaxAllocHeap());
+      #endif
     } else {
       Serial.println("PSRAM not available");
     }
@@ -339,11 +350,29 @@ void setup()
   cli_obj.RunSetup();
 }
 
+//#ifdef TINYS3_ESP32_S3
+//  unsigned long previousMillis = 0;
+//  const unsigned long interval = 900000;  // 15 minutes
+//#endif
 
 void loop()
 {
   currentTime = millis();
   bool mini = false;
+
+  //#ifdef TINYS3_ESP32_S3
+  //  unsigned long currentMillis = millis();
+  //  if (currentMillis - previousMillis >= interval) {
+  //    previousMillis = currentMillis;
+  //    // Periodic Stats
+  //    Serial.println("=== Task Stats ===");
+  //    Serial.printf("Loop task stack free: %u\n", uxTaskGetStackHighWaterMark(NULL));
+  //    Serial.printf("Free heap: %u\n", ESP.getFreeHeap());
+  //    Serial.printf("Min free heap: %u\n", ESP.getMinFreeHeap());
+  //    Serial.printf("Largest free block: %u\n", ESP.getMaxAllocHeap());
+  //    Serial.println("==================");
+  //  }
+  //#endif
 
   #ifdef SCREEN_BUFFER
     #ifndef HAS_ILI9341
