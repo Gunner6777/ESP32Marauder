@@ -9161,7 +9161,7 @@ void WiFiScan::main(uint32_t currentTime)
       initTime = millis();
       #ifdef HAS_BT
         pBLEScan->stop();
-        delay(5);
+        delay(100);
         pBLEScan->clearResults();
         pBLEScan->start(0, scanCompleteCB, false);
       #endif
@@ -9203,7 +9203,7 @@ void WiFiScan::main(uint32_t currentTime)
 
       #ifdef HAS_BT
         pBLEScan->stop();
-        delay(5);
+        delay(100);
         pBLEScan->clearResults();
         pBLEScan->start(0, scanCompleteCB, false);
       #endif
@@ -9259,7 +9259,7 @@ void WiFiScan::main(uint32_t currentTime)
     if (currentScanMode == BT_SCAN_ANALYZER) {
       #ifdef HAS_BT
         pBLEScan->stop();
-        delay(5);
+        delay(100);
         pBLEScan->clearResults();
         pBLEScan->start(0, scanCompleteCB, false);
       #endif
