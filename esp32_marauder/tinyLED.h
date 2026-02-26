@@ -24,7 +24,7 @@ class tinyLED : public UMS3 {
         uint32_t PIXEL_YELLOW = 0xFFFF00;
         uint32_t PIXEL_MAGENTA = 0xFF00FF;
         uint32_t PIXEL_VIOLET = 0x7B00FF;
-        uint32_t PIXEL_ORANGE = 0xFFA500;
+        uint32_t PIXEL_ORANGE = 0xFF7200;
 
     public:
         void RunSetup();
