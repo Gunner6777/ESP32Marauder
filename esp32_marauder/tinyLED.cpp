@@ -23,27 +23,27 @@ void tinyLED::RunSetup() {
   delay(50);
 
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
   delay(100);
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
   delay(100);
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
   delay(100);
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
-  delay(350);
+  delay(250);
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
   delay(100);
   this->setPixelBrightness(255 / 15);
-  delay(150);
+  delay(75);
   this->setPixelBrightness(0);
 }
 
