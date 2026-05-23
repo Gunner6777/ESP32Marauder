@@ -2045,7 +2045,7 @@ void WiFiScan::StartScan(uint8_t scan_mode, uint16_t color) {
   this->currentScanMode = scan_mode;
 }
 
-void WiFiScan::setLEDMode(int mode) {
+void WiFiScan::setLEDMode(uint8_t scan_mode, int mode) {
   if (mode == MODE_ATTACK) {
     #ifdef HAS_FLIPPER_LED
       flipper_led.attackLED();
@@ -2056,7 +2056,7 @@ void WiFiScan::setLEDMode(int mode) {
     #elif defined(HAS_NEOPIXEL_LED)
       led_obj.setMode(MODE_ATTACK);
     #elif defined(HAS_TINY_LED)
-      tiny_led.attackLED(MODE_ATTACK);
+      tiny_led.attackLED(scan_mode);
     #endif
   } else if (mode == MODE_SNIFF) {
     #ifdef HAS_FLIPPER_LED
@@ -2068,7 +2068,7 @@ void WiFiScan::setLEDMode(int mode) {
     #elif defined(HAS_NEOPIXEL_LED)
       led_obj.setMode(MODE_SNIFF);
     #elif defined(HAS_TINY_LED)
-      tiny_led.attackLED(MODE_SNIFF);
+      tiny_led.sniffLED(scan_mode);
     #endif
   } else if (mode == MODE_OFF) {
     #ifdef HAS_FLIPPER_LED
@@ -2177,7 +2177,7 @@ void WiFiScan::startWiFiAttacks(uint8_t scan_mode, uint16_t color, String title_
   esp_wifi_set_promiscuous(true);
   esp_wifi_set_max_tx_power(82);
   this->wifi_initialized = true;
-  this->setLEDMode(MODE_ATTACK);
+  this->setLEDMode(scan_mode, MODE_ATTACK);
   initTime = millis();
 }
 
@@ -2197,7 +2197,7 @@ bool WiFiScan::shutdownWiFi() {
       esp_netif_deinit(); 
     }
 
-    this->setLEDMode(MODE_OFF);
+    this->setLEDMode(0, MODE_OFF);
 
     this->_analyzer_value = 0;
   
@@ -2235,7 +2235,7 @@ bool WiFiScan::shutdownBLE() {
       return false;
     }
 
-    this->setLEDMode(MODE_OFF);
+    this->setLEDMode(0, MODE_OFF);
 
   #endif
 
@@ -2915,7 +2915,7 @@ void WiFiScan::RunPingScan(uint8_t scan_mode, uint16_t color) {
   else if (scan_mode == WIFI_ARP_SCAN)
     startLog(F("arpscan"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   /*#ifdef HAS_FLIPPER_LED
     flipper_led.sniffLED();
   #elif defined(XIAO_ESP32_S3)
@@ -2976,7 +2976,7 @@ void WiFiScan::RunPortScanAll(uint8_t scan_mode, uint16_t color) {
   else
     startLog(F("portscan"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   /*#ifdef HAS_FLIPPER_LED
     flipper_led.sniffLED();
   #elif defined(XIAO_ESP32_S3)
@@ -3334,7 +3334,7 @@ void WiFiScan::RunSaveSSIDList(bool save_as) {
 void WiFiScan::RunEvilPortal(uint8_t scan_mode, uint16_t color) {
   startLog(F("evil_portal"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
 
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_WHITE, color);
@@ -3361,7 +3361,7 @@ void WiFiScan::RunAPScan(uint8_t scan_mode, uint16_t color) {
   else
     startPcap(F("ap_sta"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_BLACK, color);
     if (scan_mode != WIFI_SCAN_AP_STA)
@@ -3927,7 +3927,7 @@ void WiFiScan::RunInfo() {
 }
 
 void WiFiScan::RunPacketMonitor(uint8_t scan_mode, uint16_t color) {
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   /*#ifdef HAS_FLIPPER_LED
     flipper_led.sniffLED();
   #elif defined(XIAO_ESP32_S3)
@@ -4052,7 +4052,7 @@ void WiFiScan::RunPacketMonitor(uint8_t scan_mode, uint16_t color) {
 }
 
 void WiFiScan::RunEapolScan(uint8_t scan_mode, uint16_t color) {
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   /*#ifdef HAS_FLIPPER_LED
     flipper_led.sniffLED();
   #elif defined(XIAO_ESP32_S3)
@@ -4139,7 +4139,7 @@ void WiFiScan::RunPineScan(uint8_t scan_mode, uint16_t color) {
 
   startPcap(F("pinescan"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   /*#ifdef HAS_FLIPPER_LED
     flipper_led.sniffLED();
   #elif defined(XIAO_ESP32_S3)
@@ -4186,7 +4186,7 @@ void WiFiScan::RunMultiSSIDScan(uint8_t scan_mode, uint16_t color) {
 
   startPcap(F("multissid"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_BLACK, color);
@@ -4211,7 +4211,7 @@ void WiFiScan::RunMultiSSIDScan(uint8_t scan_mode, uint16_t color) {
 void WiFiScan::RunPwnScan(uint8_t scan_mode, uint16_t color) {
   startPcap(F("pwnagotchi"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
 
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_WHITE, color);
@@ -4987,7 +4987,7 @@ void WiFiScan::RunBeaconScan(uint8_t scan_mode, uint16_t color) {
     #endif
   }
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_WHITE, color);
@@ -5038,7 +5038,7 @@ void WiFiScan::RunRawScan(uint8_t scan_mode, uint16_t color) {
   if (scan_mode != WIFI_SCAN_SIG_STREN)
     startPcap(F("raw"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_WHITE, color);
@@ -5084,7 +5084,7 @@ void WiFiScan::RunRawScan(uint8_t scan_mode, uint16_t color) {
 void WiFiScan::RunDeauthScan(uint8_t scan_mode, uint16_t color) {
   startPcap(F("deauth"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_BLACK, color);
@@ -5117,7 +5117,7 @@ void WiFiScan::RunSAEScan(uint8_t scan_mode, uint16_t color) {
   else if (scan_mode != WIFI_ATTACK_SAE_COMMIT)
     return;
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_BLACK, color);
@@ -5190,7 +5190,7 @@ void WiFiScan::RunProbeScan(uint8_t scan_mode, uint16_t color) {
   else if (scan_mode == WIFI_SCAN_DETECT_FOLLOW)
     startPcap(F("mac_track"));
 
-  this->setLEDMode(MODE_SNIFF);
+  this->setLEDMode(scan_mode, MODE_SNIFF);
   
   #ifdef HAS_SCREEN
     this->setupScanDisplayArea(TFT_BLACK, color);
@@ -5254,7 +5254,7 @@ void WiFiScan::RunSourApple(uint8_t scan_mode, uint16_t color) {
       display_obj.tft.setTextColor(TFT_GREEN, TFT_BLACK);
     #endif
 
-    this->setLEDMode(MODE_SNIFF);
+    this->setLEDMode(scan_mode, MODE_SNIFF);
 
   #endif
 }
@@ -5284,7 +5284,7 @@ void WiFiScan::RunSwiftpairSpam(uint8_t scan_mode, uint16_t color) {
       display_obj.tft.setTextColor(TFT_GREEN, TFT_BLACK);
     #endif
 
-    this->setLEDMode(MODE_ATTACK);
+    this->setLEDMode(scan_mode, MODE_ATTACK);
 
   #endif
 }
@@ -5438,7 +5438,7 @@ void WiFiScan::RunBluetoothScan(uint8_t scan_mode, uint16_t color) {
     }
     this->ble_initialized = true;
 
-    this->setLEDMode(MODE_SNIFF);
+    this->setLEDMode(scan_mode, MODE_SNIFF);
 
     initTime = millis();
   #endif
