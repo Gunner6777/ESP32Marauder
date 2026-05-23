@@ -64,6 +64,8 @@ void tinyLED::sniffLED(uint8_t scan_mode) {
   this->setPixelBrightness(0);
   if (scan_mode == 45) {
     this->setPixelColor(PIXEL_ORANGE);
+  } else if (scan_mode == 43 || scan_mode == 70 || scan_mode == 81) {
+    this->setPixelColor(PIXEL_WHITE);
   } else if (scan_mode == 10 || scan_mode == 11 || scan_mode == 34 || scan_mode == 35 || scan_mode == 43 || scan_mode == 44 || scan_mode == 47 || 
         scan_mode == 70 || scan_mode == 72 || scan_mode == 73 || scan_mode == 74 || scan_mode == 75) {
     this->setPixelColor(PIXEL_BLUE);
