@@ -2493,8 +2493,9 @@
     #define MEM_LOWER_LIM 10000
   #elif defined(MARAUDER_V8)
     #define MEM_LOWER_LIM 10000
-  #elif defined(TINYS3_ESP32_S3)
   #elif defined(MARAUDER_MINI_V3)
+    #define MEM_LOWER_LIM 10000
+  #elif defined(TINYS3_ESP32_S3)
     #define MEM_LOWER_LIM 10000
   #endif
   //// END MEMORY LOWER LIMIT STUFF

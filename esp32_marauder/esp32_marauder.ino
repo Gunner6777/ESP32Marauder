@@ -341,6 +341,7 @@ void setup()
       #endif
     } else {
       Serial.println("PSRAM not available");
+	}
     //if (!psramInit()) {
     //  Serial.println(F("PSRAM not available"));
     //}

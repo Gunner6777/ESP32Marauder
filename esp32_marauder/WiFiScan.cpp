@@ -2080,7 +2080,7 @@ void WiFiScan::setLEDMode(int mode) {
     #elif defined(HAS_NEOPIXEL_LED)
       led_obj.setMode(MODE_OFF);
     #elif defined(HAS_TINY_LED)
-      tiny_led.offLED(MODE_OFF);
+      tiny_led.offLED();
     #endif
   }
 }
