@@ -196,7 +196,7 @@ void CommandLine::filterAccessPoints(String filter) {
 }
 
 void CommandLine::startScanFromCLI(int scan_mode, uint16_t color, String scan_name) {
-  Serial.print(F("Starting"));
+  Serial.print(F("Starting "));
   Serial.print(scan_name);
   Serial.print(F(". Stop with "));
   Serial.println(STOPSCAN_CMD);
