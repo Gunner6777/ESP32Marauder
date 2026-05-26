@@ -9878,9 +9878,9 @@ void WiFiScan::updateTrackerUI() {
 
     Serial.print(macToString(ui_list[i].mac));
 	#ifdef FLIPPER_ZERO_HAT
-      Serial.println(" Frames: " + (String)ui_list[i].frame_count + " Last Seen: " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
+      Serial.println(" " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
 	#else
-	  Serial.println(" " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
+	  Serial.println(" Frames: " + (String)ui_list[i].frame_count + " Last Seen: " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
 	#endif
   }
 }
