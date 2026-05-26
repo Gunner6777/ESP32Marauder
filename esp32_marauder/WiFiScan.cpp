@@ -2669,6 +2669,100 @@ static inline bool is_following_candidate_light(
   return d >= THRESH_E6;
 }
 
+// Returns how many entries were written to out_top5 (0..5)
+uint8_t WiFiScan::build_top5_for_ui(MacEntry* out_top5, MacSortMode mode) {
+  if (!out_top5) return 0;
+
+  const uint32_t now_ms = millis();
+
+  int32_t top_idx[5];
+  uint8_t top_count = 0;
+
+  for (int i = 0; i < 5; i++)
+    top_idx[i] = -1;
+
+  auto better = [&](uint32_t a_idx, uint32_t b_idx) -> bool {
+    const MacEntry& A = mac_entries[a_idx];
+    const MacEntry& B = mac_entries[b_idx];
+
+    const bool A_follow = is_following_candidate_light(A, now_ms);
+    const bool B_follow = is_following_candidate_light(B, now_ms);
+
+    // Following entries always rank ahead of non-following
+    if (A_follow != B_follow)
+      return A_follow && !B_follow;
+
+    // Original sort rules
+    if (mode == MacSortMode::MOST_FRAMES) {
+      if (A.frame_count != B.frame_count)
+        return A.frame_count > B.frame_count;
+
+      return age_ms(now_ms, A.last_seen_ms) <
+             age_ms(now_ms, B.last_seen_ms);
+
+    } else if (mode == MacSortMode::HIGH_RSSI) {
+      return A.rssi > B.rssi;
+
+    } else {
+      const uint32_t ageA = age_ms(now_ms, A.last_seen_ms);
+      const uint32_t ageB = age_ms(now_ms, B.last_seen_ms);
+
+      if (ageA != ageB)
+        return ageA < ageB;
+
+      return A.frame_count > B.frame_count;
+    }
+  };
+
+  for (uint32_t i = 0; i < mac_history_len_half; i++) {
+    if (mac_entry_state[i] != VALID_ENTRY)
+      continue;
+
+    // Still filling top 5
+    if (top_count < 5) {
+      int pos = (int)top_count;
+
+      while (pos > 0 &&
+             top_idx[pos - 1] >= 0 &&
+             better(i, (uint32_t)top_idx[pos - 1])) {
+        top_idx[pos] = top_idx[pos - 1];
+        pos--;
+      }
+
+      top_idx[pos] = (int32_t)i;
+      top_count++;
+      continue;
+    }
+
+    // Compare against current worst (last element)
+    const int32_t worst_idx = top_idx[4];
+
+    if (worst_idx < 0)
+      continue;
+
+    if (better(i, (uint32_t)worst_idx)) {
+      int pos = 4;
+
+      while (pos > 0 &&
+             top_idx[pos - 1] >= 0 &&
+             better(i, (uint32_t)top_idx[pos - 1])) {
+        top_idx[pos] = top_idx[pos - 1];
+        pos--;
+      }
+
+      top_idx[pos] = (int32_t)i;
+    }
+  }
+
+  // Copy selected entries to output buffer
+  for (uint8_t i = 0; i < top_count; i++) {
+    if (top_idx[i] >= 0)
+      out_top5[i] = mac_entries[top_idx[i]];
+  }
+
+  return top_count;
+}
+
 // Returns how many entries were written to out_top10 (0..10)
 uint8_t WiFiScan::build_top10_for_ui(MacEntry* out_top10, MacSortMode mode) {
   if (!out_top10) return 0;
@@ -9726,7 +9820,11 @@ void WiFiScan::portScan(uint8_t scan_mode, uint16_t targ_port) {
 
 void WiFiScan::updateTrackerUI() {
   MacEntry ui_list[10];
-  uint8_t n = this->build_top10_for_ui(ui_list, MacSortMode::MOST_FRAMES);
+  #ifdef FLIPPER_ZERO_HAT
+    uint8_t n = this->build_top5_for_ui(ui_list, MacSortMode::MOST_FRAMES);
+  #else
+	uint8_t n = this->build_top10_for_ui(ui_list, MacSortMode::MOST_FRAMES);
+  #endif
 
   #ifdef HAS_SCREEN
 
@@ -9779,7 +9877,11 @@ void WiFiScan::updateTrackerUI() {
     #endif
 
     Serial.print(macToString(ui_list[i].mac));
-    Serial.println(" Frames: " + (String)ui_list[i].frame_count + " Last Seen: " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
+	#ifdef FLIPPER_ZERO_HAT
+      Serial.println(" Frames: " + (String)ui_list[i].frame_count + " Last Seen: " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
+	#else
+	  Serial.println(" " + (String)((millis() - ui_list[i].last_seen_ms) / 1000) + "s");
+	#endif
   }
 }
 
