@@ -533,7 +533,7 @@
   #ifdef TINYS3_ESP32_S3
     //#define HAS_TOUCH
     //#define HAS_FLIPPER_LED
-    //#define FLIPPER_ZERO_HAT
+    #define FLIPPER_ZERO_HAT
     //#define HAS_BATTERY
     #define HAS_BT
     //#define HAS_BUTTONS
