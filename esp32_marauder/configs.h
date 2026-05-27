@@ -103,6 +103,8 @@
     #define HARDWARE_NAME "ESP32-C5 DevKit"
   #elif defined(MARAUDER_V8)
     #define HARDWARE_NAME "Marauder v8"
+  #elif defined(TINYS3_ESP32_S3)
+    #define HARDWARE_NAME "TINYS3 ESP32 S3"
   #elif defined(MARAUDER_MINI_V3)
     #define HARDWARE_NAME "Marauder Mini v3"
   #elif defined(DUAL_MINI_C5)
