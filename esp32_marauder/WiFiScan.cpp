@@ -9405,23 +9405,45 @@ void WiFiScan::renderRawStats() {
 
   #endif
 
-  Serial.println("     Mgmt: " + (String)this->mgmt_frames);
-  Serial.println("     Data: " + (String)this->data_frames);
-  Serial.println("  Channel: " + (String)this->set_channel);
-  Serial.println("   Beacon: " + (String)this->beacon_frames);
-  Serial.println("Probe Req: " + (String)this->req_frames);
-  Serial.println("Probe Res: " + (String)this->resp_frames);
-  Serial.println("   Deauth: " + (String)this->deauth_frames);
-  Serial.println("    EAPOL: " + (String)this->eapol_frames);
-  if ((this->currentScanMode == WIFI_SCAN_EAPOL) ||
-      (this->currentScanMode == WIFI_SCAN_ACTIVE_EAPOL)) {
-    Serial.println("Complete EAPOL: " + (String)this->getCompleteEapol());
-  }
-  Serial.println("     RSSI: " + (String)this->min_rssi + " - " + (String)this->max_rssi);
-  if (this->send_deauth)
-  Serial.println(F("\nDEAUTH TX: TRUE"));
-  else
-  Serial.println(F("\nDEAUTH TX: FALSE"));
+  #ifdef FLIPPER_ZERO_HAT
+    Serial.print("M: " + (String)this->mgmt_frames);
+    Serial.print(" D: " + (String)this->data_frames);
+    Serial.println(" B: " + (String)this->beacon_frames);
+    Serial.print("Ch: " + (String)this->set_channel);
+    Serial.println(" - RSSI: " + (String)this->min_rssi + " - " + (String)this->max_rssi);
+    Serial.print("Req: " + (String)this->req_frames);
+    Serial.println(" Res: " + (String)this->resp_frames);
+    Serial.print("De: " + (String)this->deauth_frames);
+    Serial.print(" EA: " + (String)this->eapol_frames);
+    if (this->send_deauth)
+      Serial.println(F(" DTX: T"));
+    else
+      Serial.println(F(" DTX: F"));
+    if ((this->currentScanMode == WIFI_SCAN_EAPOL) ||
+        (this->currentScanMode == WIFI_SCAN_ACTIVE_EAPOL)) {
+      Serial.println("Complete EAPOL: " + (String)this->getCompleteEapol());
+    } else {
+      Serial.println("");
+    }
+  #else
+    Serial.println("     Mgmt: " + (String)this->mgmt_frames);
+    Serial.println("     Data: " + (String)this->data_frames);
+    Serial.println("  Channel: " + (String)this->set_channel);
+    Serial.println("   Beacon: " + (String)this->beacon_frames);
+    Serial.println("Probe Req: " + (String)this->req_frames);
+    Serial.println("Probe Res: " + (String)this->resp_frames);
+    Serial.println("   Deauth: " + (String)this->deauth_frames);
+    Serial.println("    EAPOL: " + (String)this->eapol_frames);
+    if ((this->currentScanMode == WIFI_SCAN_EAPOL) ||
+        (this->currentScanMode == WIFI_SCAN_ACTIVE_EAPOL)) {
+      Serial.println("Complete EAPOL: " + (String)this->getCompleteEapol());
+    }
+    Serial.println("     RSSI: " + (String)this->min_rssi + " - " + (String)this->max_rssi);
+    if (this->send_deauth)
+    Serial.println(F("\nDEAUTH TX: TRUE"));
+    else
+    Serial.println(F("\nDEAUTH TX: FALSE"));
+  #endif
 }
 
 void WiFiScan::renderPacketRate() {
