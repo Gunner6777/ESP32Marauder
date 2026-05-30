@@ -554,6 +554,7 @@
     //#define HAS_DUAL_BAND
     #define HAS_PSRAM
     //#define HAS_TEMP_SENSOR
+  #endif
 
   #if defined(MARAUDER_M5_NANO_C6)
     //#define FLIPPER_ZERO_HAT
