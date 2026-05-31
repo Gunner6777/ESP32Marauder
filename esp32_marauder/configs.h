@@ -491,19 +491,19 @@
 
   #ifdef XIAO_ESP32_C5
     //#define HAS_FLIPPER_LED
-    //#define FLIPPER_ZERO_HAT
+    #define FLIPPER_ZERO_HAT
     //#define HAS_BATTERY
     #define HAS_BT
     //#define HAS_BUTTONS
     //#define HAS_NEOPIXEL_LED
     //#define HAS_PWR_MGMT
     //#define HAS_SCREEN
-    //#define HAS_GPS
+    #define HAS_GPS
     //#define HAS_C5_SD
     //#define HAS_SD
     //#define USE_SD
     #define HAS_DUAL_BAND
-    //#define HAS_PSRAM
+    #define HAS_PSRAM
     //#define HAS_TEMP_SENSOR
     #define HAS_NIMBLE_2
     #define HAS_IDF_3
@@ -2648,8 +2648,8 @@
       #define GPS_RX 13
     #elif defined(XIAO_ESP32_C5)
       #define GPS_SERIAL_INDEX 1
-      #define GPS_TX 0
-      #define GPS_RX 25
+      #define GPS_TX 23
+      #define GPS_RX 24
     #elif defined(MARAUDER_V8)
       #define GPS_SERIAL_INDEX 1
       #define GPS_TX 14
