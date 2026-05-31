@@ -2648,8 +2648,8 @@
       #define GPS_RX 13
     #elif defined(XIAO_ESP32_C5)
       #define GPS_SERIAL_INDEX 1
-      #define GPS_TX 23
-      #define GPS_RX 24
+      #define GPS_TX 24
+      #define GPS_RX 23
     #elif defined(MARAUDER_V8)
       #define GPS_SERIAL_INDEX 1
       #define GPS_TX 14
