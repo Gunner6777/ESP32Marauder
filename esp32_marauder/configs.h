@@ -491,7 +491,7 @@
 
   #ifdef XIAO_ESP32_C5
     //#define HAS_FLIPPER_LED
-    #define FLIPPER_ZERO_HAT
+    //#define FLIPPER_ZERO_HAT
     //#define HAS_BATTERY
     #define HAS_BT
     //#define HAS_BUTTONS
